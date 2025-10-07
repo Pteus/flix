@@ -35,7 +35,7 @@ class MoviesController < ApplicationController
 
   def destroy
     @movie.destroy
-    redirect_to movies_url, status: :see_other
+    redirect_to movies_url, status: :see_other, danger: "Movie was successfully destroyed."
   end
 
   private
