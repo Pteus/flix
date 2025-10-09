@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [ :show, :edit, :update, :destroy ]
   def index
     @users = User.all
   end
@@ -20,8 +21,26 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if @user.update(user_params)
+      redirect_to @user, notice: "Account was successfully updated."
+    else
+      render :edit, status: :unprocessable_content
+    end
+  end
+  def destroy
+    @user.destroy
+    redirect_to movies_url, status: :see_other, alert: "Account was successfully deleted."
+  end
+
   private
   def user_params
-    params.expect(user: [ :name, :email, :password, :password_confirmation ])
+    params.expect(user: [ :name, :email, :password, :password_confirmation, :username ])
+  end
+  def set_user
+    @user = User.find(params[:id])
   end
 end
