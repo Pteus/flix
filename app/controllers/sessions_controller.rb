@@ -3,7 +3,13 @@ class SessionsController < ApplicationController
   end
 
   def create
-    fail
+    user = User.find_by(email: params[:email])
+    if user && user.authenticate(params[:password])
+      redirect_to user, notice: "Welcome back, #{user.name}!"
+    else
+      flash.now[:alert] = "Invalid credentials."
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def destroy
