@@ -1,4 +1,4 @@
-class ApplicationController < ActionController::Base
+class  ApplicationController < ActionController::Base
   helper_method :current_user
   helper_method :current_user?
 
@@ -19,5 +19,9 @@ class ApplicationController < ActionController::Base
   def require_login
     session[:intended_url] = request.url
     redirect_to signin_path, alert: "You must be logged in to access this page." unless current_user
+  end
+
+  def require_admin
+    redirect_to root_path, alert: "You must be an admin to access this page." unless current_user&.admin?
   end
 end

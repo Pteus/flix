@@ -5,12 +5,14 @@
   <p><%= @user.created_at.strftime("%B %Y") %></p>
   <p><%= @user.username %></p>
 
-  <% if current_user?(@user) %>
-    <div class="actions">
+  <div class="actions">
+    <% if current_user?(@user) %>
       <%= link_to "Edit Account", edit_user_path(@user), class: "button edit" %>
+    <% end %>
+    <% if current_user&.admin? %>
       <%= link_to "Delete Account", @user, class: "button delete",
                   data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 
 </section>
