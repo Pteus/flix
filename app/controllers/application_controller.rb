@@ -18,10 +18,15 @@ class  ApplicationController < ActionController::Base
 
   def require_login
     session[:intended_url] = request.url
-    redirect_to signin_path, alert: "You must be logged in to access this page." unless current_user
+
+    unless current_user
+      redirect_to signin_path, alert: "You must be logged in to access this page."
+    end
   end
 
   def require_admin
-    redirect_to root_path, alert: "You must be an admin to access this page." unless current_user&.admin?
+    unless current_user&.admin?
+      redirect_to root_path, alert: "You must be an admin to access this page."
+    end
   end
 end
