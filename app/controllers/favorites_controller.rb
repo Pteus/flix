@@ -2,7 +2,7 @@ class FavoritesController < ApplicationController
   before_action :require_login
 
   def create
-    movie = Movie.find(params[:movie_id])
+    movie = Movie.find_by!(slug: params[:movie_id])
     movie.fans << current_user
 
     # this would also work

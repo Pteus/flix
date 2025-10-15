@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  before_save :format_username
+
   has_many :reviews, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :favorite_movies, through: :favorites, source: :movie
@@ -13,4 +15,13 @@ class User < ApplicationRecord
 
   scope :by_name, -> { order(:name) }
   scope :not_admins, -> { by_name.where(admin: false) }
+
+  def to_param
+    username
+  end
+
+  private
+  def format_username
+    self.username = username.downcase
+  end
 end
